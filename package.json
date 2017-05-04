@@ -27,7 +27,8 @@
     "CLI"
   ],
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "dependencies": {
     "aws-sdk": "2.x.x",
@@ -73,6 +74,15 @@
         "json"
       ],
       "ignore": "dist/"
+    },
+    "test": {
+      "patterns": [
+        "src",
+        "test"
+      ],
+      "extensions": "js",
+      "ignore": "",
+      "quiet": true
     }
   }
 }
