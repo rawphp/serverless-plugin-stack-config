@@ -28,7 +28,8 @@
   ],
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "package.json"
   ],
   "dependencies": {
     "aws-sdk": "2.x.x",
