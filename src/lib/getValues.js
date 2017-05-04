@@ -9,7 +9,7 @@ export default async function getValues() {
   try {
     this.logger.log('Retrieving Outputs...');
 
-    const stackName = `${this.serverless.variables.service.service}-${this.options.stage}`;
+    const stackName = `${this.service.service}-${this.options.stage}`;
 
     const outputs = {};
 
@@ -47,6 +47,6 @@ export default async function getValues() {
       throw new Error(`Stack: '${stackName}' not found`);
     }
   } catch (error) {
-    this.logger.error(error);
+    this.logger.log(error);
   }
 }

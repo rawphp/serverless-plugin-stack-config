@@ -43,7 +43,6 @@ describe('getValues', () => {
     await context.getValues();
 
     expect(context.logSpy).to.have.been.calledOnce();
-    expect(context.errorSpy).to.not.have.been.called();
     expect(context.CF.describeStacksAsync).to.have.been.calledWith(request);
     expect(context.serverless.variables.stack).to.exist();
     expect(context.serverless.variables.stack.outputs.PublicSubnet).to.exist();
@@ -60,8 +59,7 @@ describe('getValues', () => {
 
     await context.getValues();
 
-    expect(context.logSpy).to.have.been.calledOnce();
-    expect(context.errorSpy).to.have.been.calledOnce();
+    expect(context.logSpy).to.have.been.calledTwice();
     expect(context.serverless.variables.stack).to.not.exist();
   });
 });

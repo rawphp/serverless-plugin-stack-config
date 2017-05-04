@@ -10,24 +10,31 @@ function getContext() {
   const context = sandbox.mock();
 
   context.logSpy = sandbox.spy();
-  context.errorSpy = sandbox.spy();
   context.serverless = {
     cli: {},
-    service: {},
+    service: { service: 'test-service' },
     provider: {},
-    variables: {
-      service: {
-        service: 'test-service',
-      },
-    },
+    variables: {},
   };
+  context.service = { service: 'test-service' };
   context.CF = {
     describeStacksAsync: sandbox.stub(),
   };
-  context.options = { stage: 'dev' };
+  context.S3 = {
+    getObjectAsync: sandbox.stub(),
+    putObjectAsync: sandbox.stub(),
+  };
+  context.options = { stage: 'dev', path: '/tmp' };
   context.logger = {
     log: args => context.logSpy(args),
     error: args => context.errorSpy(args),
+  };
+  context.backup = {
+    s3: {
+      key: 'serverless-config.json',
+      bucket: 'my-test-bucket',
+      shallow: true,
+    },
   };
 
   return context;

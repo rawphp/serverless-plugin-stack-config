@@ -10,14 +10,26 @@ import chalk from 'chalk';
  */
 export default async function download() {
   try {
-    const S3 = Promise.promisifyAll(
-      new this.provider.sdk.S3({ region: this.options.region }),
-    );
+    if (!this.S3) {
+      this.S3 = Promise.promisifyAll(
+        new this.provider.sdk.S3({ region: this.options.region }),
+      );
+    }
+
+    if (!this.backup) {
+      throw new Error('StackConfig plugin has not defined a backup configuration');
+    }
+    if (!this.backup.s3) {
+      throw new Error('StackConfig plugin has not defined an S3 backup configuration');
+    }
 
     const config = this.backup.s3;
 
     if (!config.bucket) {
-      throw new Error('Hookup plugin backup configuration is missing `bucket` name');
+      throw new Error('StackConfig plugin has not defined a `bucket` name');
+    }
+    if (!config.key) {
+      throw new Error('StackConfig plugin has not defined a `key` name');
     }
 
     if (!config.shallow) {
@@ -27,7 +39,7 @@ export default async function download() {
     let object;
 
     try {
-      const data = (await S3.getObjectAsync({ Bucket: config.bucket, Key: config.key }))
+      const data = (await this.S3.getObjectAsync({ Bucket: config.bucket, Key: config.key }))
         .Body.toString();
 
       object = JSON.parse(data);

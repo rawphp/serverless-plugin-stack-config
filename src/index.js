@@ -2,7 +2,7 @@ import Promise from 'bluebird';
 import validate from './lib/validate';
 import getValues from './lib/getValues';
 import putValues from './lib/putValues';
-import backup from './lib/backup';
+import backupConfig from './lib/backupConfig';
 import download from './lib/download';
 
 class StackConfig {
@@ -61,7 +61,7 @@ class StackConfig {
         options: commonOptions,
         commands: {
           download: {
-            usage: 'Download combined config.json',
+            usage: 'Download combined config file',
             lifecycleEvents: [
               'validate',
               'download',
@@ -77,13 +77,13 @@ class StackConfig {
         .then(validate)
         .then(getValues)
         .then(putValues)
-        .then(backup),
+        .then(backupConfig),
 
       'outputs:getValues': () => Promise.bind(this)
         .then(validate)
         .then(getValues)
         .then(putValues)
-        .then(backup),
+        .then(backupConfig),
 
       'outputs:download:download': () => Promise.bind(this)
         .then(validate)

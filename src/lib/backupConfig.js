@@ -5,7 +5,7 @@ import Promise from 'bluebird';
  *
  * @returns {undefined}
  */
-export default async function backup() {
+export default async function backupConfig() {
   try {
     if (!this.backup) {
       return;
@@ -15,21 +15,26 @@ export default async function backup() {
       const config = this.backup.s3;
 
       if (!config.bucket) {
-        throw new Error('Hookup plugin backup configuration is missing `bucket` name');
+        throw new Error('StackConfig plugin has not defined a `bucket` name');
+      }
+      if (!config.key) {
+        throw new Error('StackConfig plugin has not defined a `key` name');
       }
 
-      if (!config.shallow) {
+      if (typeof config.shallow === 'undefined') {
         config.shallow = true;
       }
 
-      const S3 = Promise.promisifyAll(
-        new this.provider.sdk.S3({ region: this.options.region }),
-      );
+      if (!this.S3) {
+        this.S3 = Promise.promisifyAll(
+          new this.provider.sdk.S3({ region: this.options.region }),
+        );
+      }
 
       let object;
 
       try {
-        const data = (await S3.getObjectAsync({ Bucket: config.bucket, Key: config.key }))
+        const data = (await this.S3.getObjectAsync({ Bucket: config.bucket, Key: config.key }))
           .Body.toString();
 
         object = JSON.parse(data);
@@ -54,7 +59,7 @@ export default async function backup() {
         outputs = Object.assign({}, object, obj);
       }
 
-      await S3.putObjectAsync({
+      await this.S3.putObjectAsync({
         Bucket: config.bucket,
         Key: config.key,
         Body: JSON.stringify(outputs),
