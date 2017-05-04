@@ -47,6 +47,6 @@ export default async function getValues() {
       throw new Error(`Stack: '${stackName}' not found`);
     }
   } catch (error) {
-    this.logger.log(error);
+    this.logger.error(error);
   }
 }

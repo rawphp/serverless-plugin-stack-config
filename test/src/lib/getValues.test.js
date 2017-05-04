@@ -1,45 +1,18 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
 import sinonChai from 'sinon-chai';
-import sinon from 'sinon';
+import getContext from './../../stubs/context';
 import getValues from './../../../src/lib/getValues';
 
 chai.use(dirtyChai);
 chai.use(sinonChai);
 
 describe('getValues', () => {
-  const sandbox = sinon.sandbox.create();
-  const context = sandbox.mock();
-
-  let loggerSpy;
+  let context;
 
   beforeEach(() => {
-    loggerSpy = sandbox.spy();
-
-    context.serverless = {
-      cli: {},
-      service: {},
-      provider: {},
-      variables: {
-        service: {
-          service: 'test-service',
-        },
-      },
-    };
-    context.CF = {
-      describeStacksAsync: sandbox.stub(),
-    };
-    context.options = { stage: 'dev' };
-    context.logger = {
-      log: (args) => {
-        loggerSpy(args);
-      },
-    };
+    context = getContext();
     context.getValues = getValues;
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   it('returns stack output values for a valid stack', async () => {
@@ -69,7 +42,8 @@ describe('getValues', () => {
 
     await context.getValues();
 
-    expect(loggerSpy).to.have.been.calledOnce();
+    expect(context.logSpy).to.have.been.calledOnce();
+    expect(context.errorSpy).to.not.have.been.called();
     expect(context.CF.describeStacksAsync).to.have.been.calledWith(request);
     expect(context.serverless.variables.stack).to.exist();
     expect(context.serverless.variables.stack.outputs.PublicSubnet).to.exist();
@@ -86,7 +60,8 @@ describe('getValues', () => {
 
     await context.getValues();
 
-    expect(loggerSpy).to.have.been.calledTwice();
+    expect(context.logSpy).to.have.been.calledOnce();
+    expect(context.errorSpy).to.have.been.calledOnce();
     expect(context.serverless.variables.stack).to.not.exist();
   });
 });
