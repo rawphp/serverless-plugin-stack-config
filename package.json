@@ -1,7 +1,7 @@
 {
   "name": "serverless-plugin-stack-config",
   "description": "A serverless plugin to manage configurations for a stack across micro-services.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
