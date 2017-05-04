@@ -5,9 +5,11 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
+    "prebuild": "yarn clear",
     "build": "babel src --out-dir dist",
+    "clear": "rm -rf dist",
     "prepublish": "yarn build",
-    "release": "yarn lint && yarn test && yarn build && yarn publish && git push origin master --tags",
+    "release": "yarn lint && yarn test && npm publish && git push origin master --tags",
     "watch": "npm-watch",
     "lint": "eslint .",
     "test": "env TZ='UTC' NODE_ENV=test mocha test --compilers js:babel-core/register --require babel-polyfill --recursive"
