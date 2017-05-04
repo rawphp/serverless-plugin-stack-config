@@ -28,11 +28,6 @@
     "hook",
     "CLI"
   ],
-  "files": [
-    "dist",
-    "README.md",
-    "package.json"
-  ],
   "dependencies": {
     "aws-sdk": "2.x.x",
     "babel-polyfill": "6.x.x",
