@@ -1,5 +1,4 @@
 import Promise from 'bluebird';
-import { execSync } from 'child_process';
 import validate from './lib/validate';
 import getValues from './lib/getValues';
 import putValues from './lib/putValues';
@@ -11,7 +10,7 @@ class StackConfig {
    * Create a new instance.
    *
    * @param {Object} serverless the Serverless instance
-   * @param {Object} options    passed in options 
+   * @param {Object} options    passed in options
    */
   constructor(serverless, options) {
     this.serverless = serverless;
@@ -96,57 +95,6 @@ class StackConfig {
         .then(validate)
         .then(download),
     };
-
-    this.addHooks(this.config.hooks);
-  }
-
-  /**
-   * Add custom commands to hooks.
-   *
-   * @param {Object} list list of hook commands
-   *
-   * @returns {undefined}
-   */
-  addHooks(list) {
-    if (!list) {
-      return;
-    }
-
-    const buildHookFunction = hook => (
-      () => {
-        const commands = list[hook] || [];
-
-        commands.forEach(
-          command => {
-            try {
-              this.logger.log(`Running ${hook} command: "${command}"`);
-
-              var output = execSync(command).toString();
-
-              if (output) {
-                this.logger.log(output);
-              }
-            } catch (error) {
-              this.logger.log(error);
-            }
-          }
-        );
-      }
-    );
-
-    const hooksObj = {}
-
-    const custom = this.serverless.service.custom || {};
-
-    const hooks = custom.hooks || {};
-
-    Object.keys(list).forEach(
-      hook => {
-        hooksObj[hook] = buildHookFunction(hook);
-      }
-    );
-
-    this.hooks = Object.assign({}, this.hooks, hooksObj);
   }
 }
 

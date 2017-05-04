@@ -13,7 +13,7 @@ export default async function getValues() {
     const outputs = {};
 
     const CF = Promise.promisifyAll(
-      new this.provider.sdk.CloudFormation({ region: this.options.region })
+      new this.provider.sdk.CloudFormation({ region: this.options.region }),
     );
 
     if (this.options.verbose) this.logger.log('Calling CloudFormation...');

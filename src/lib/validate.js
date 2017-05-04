@@ -1,4 +1,8 @@
-
+/**
+ * Validate configuration.
+ *
+ * @returns {undefined}
+ */
 export default async function validate() {
   if (!this.serverless.config.servicePath) {
     throw new this.serverless.classes

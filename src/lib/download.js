@@ -3,10 +3,15 @@ import fsp from 'fs-promise';
 import path from 'path';
 import chalk from 'chalk';
 
+/**
+ * Downloads configuration.
+ *
+ * @returns {undefined}
+ */
 export default async function download() {
   try {
     const S3 = Promise.promisifyAll(
-      new this.provider.sdk.S3({ region: this.options.region })
+      new this.provider.sdk.S3({ region: this.options.region }),
     );
 
     const config = this.backup.s3;
@@ -22,7 +27,8 @@ export default async function download() {
     let object;
 
     try {
-      const data = (await S3.getObjectAsync({ Bucket: config.bucket, Key: config.key })).Body.toString();
+      const data = (await S3.getObjectAsync({ Bucket: config.bucket, Key: config.key }))
+        .Body.toString();
 
       object = JSON.parse(data);
     } catch (error) {

@@ -1,5 +1,10 @@
 import Promise from 'bluebird';
 
+/**
+ * Backs up config to S3 bucket.
+ *
+ * @returns {undefined}
+ */
 export default async function backup() {
   try {
     if (!this.backup) {
@@ -18,13 +23,14 @@ export default async function backup() {
       }
 
       const S3 = Promise.promisifyAll(
-        new this.provider.sdk.S3({ region: this.options.region })
+        new this.provider.sdk.S3({ region: this.options.region }),
       );
 
       let object;
 
       try {
-        const data = (await S3.getObjectAsync({ Bucket: config.bucket, Key: config.key })).Body.toString();
+        const data = (await S3.getObjectAsync({ Bucket: config.bucket, Key: config.key }))
+          .Body.toString();
 
         object = JSON.parse(data);
       } catch (error) {
@@ -35,19 +41,24 @@ export default async function backup() {
 
       let outputs;
 
+      /* eslint id-length:0 */
       this.serverless.variables.stack.outputs.ServerlessDeploymentBucketName = undefined;
 
       if (config.shallow) {
         outputs = Object.assign({}, object, this.serverless.variables.stack.outputs);
       } else {
-        let obj = {};
+        const obj = {};
 
-        obj[this.service['service']] = this.serverless.variables.stack.outputs;
+        obj[this.service.service] = this.serverless.variables.stack.outputs;
 
         outputs = Object.assign({}, object, obj);
       }
 
-      await S3.putObjectAsync({ Bucket: config.bucket, Key: config.key, Body: JSON.stringify(outputs) });
+      await S3.putObjectAsync({
+        Bucket: config.bucket,
+        Key: config.key,
+        Body: JSON.stringify(outputs),
+      });
     }
   } catch (error) {
     this.logger.log(error);
