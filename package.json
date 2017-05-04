@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel src --out-dir dist",
     "prepublish": "yarn build",
-    "release": "yarn lint && yarn test && yarn build && yarn version $npm_config_release_type && git push --follow-tags && yarn publish",
+    "release": "yarn lint && yarn test && yarn version $npm_config_release_type && git push --follow-tags && yarn publish",
     "release-patch": "yarn release --release-type=patch",
     "release-minor": "yarn release --release-type=minor",
     "release-major": "yarn release --release-type=major",
