@@ -12,6 +12,9 @@
     "lint": "eslint .",
     "test": "env TZ='UTC' NODE_ENV=test mocha test --compilers js:babel-core/register --require babel-polyfill --recursive"
   },
+  "engines": {
+    "node": ">=6.10"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:rawphp/serverless-plugin-stack-config.git"

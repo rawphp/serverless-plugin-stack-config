@@ -50,12 +50,6 @@ class StackConfig {
     };
 
     this.commands = {
-      docker: {
-        usage: 'Deploy a Docker Image',
-        lifecycleEvents: [
-          'initialize',
-        ],
-      },
       outputs: {
         usage: 'Save stack Outputs to file',
         lifecycleEvents: [

@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+
 /**
  * Retrieves stack Ouputs from AWS.
  *
@@ -12,13 +13,15 @@ export default async function getValues() {
 
     const outputs = {};
 
-    const CF = Promise.promisifyAll(
-      new this.provider.sdk.CloudFormation({ region: this.options.region }),
-    );
+    if (!this.CF) {
+      this.CF = Promise.promisifyAll(
+        new this.provider.sdk.CloudFormation({ region: this.options.region }),
+      );
+    }
 
     if (this.options.verbose) this.logger.log('Calling CloudFormation...');
 
-    const response = await CF.describeStacksAsync({ StackName: stackName });
+    const response = await this.CF.describeStacksAsync({ StackName: stackName });
 
     let stack;
 
