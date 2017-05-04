@@ -9,7 +9,7 @@
     "build": "babel src --out-dir dist",
     "clear": "rm -rf dist",
     "prepublish": "yarn build",
-    "release": "yarn lint && yarn test && yarn version && npm publish && git push origin master --tags",
+    "release": "yarn lint && yarn test && yarn publish && git push origin master --tags",
     "watch": "npm-watch",
     "lint": "eslint .",
     "test": "env TZ='UTC' NODE_ENV=test mocha test --compilers js:babel-core/register --require babel-polyfill --recursive"
