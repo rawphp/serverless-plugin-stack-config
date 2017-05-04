@@ -1,15 +1,13 @@
 {
   "name": "serverless-plugin-stack-config",
+  "description": "A serverless plugin to manage configurations for a stack across micro-services.",
   "version": "0.0.2",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir dist",
     "prepublish": "yarn build",
-    "release": "yarn lint && yarn test && yarn version $npm_config_release_type && git push --follow-tags && yarn publish",
-    "release-patch": "yarn release --release-type=patch",
-    "release-minor": "yarn release --release-type=minor",
-    "release-major": "yarn release --release-type=major",
+    "release": "yarn lint && yarn test && yarn publish && git push --follow-tags",
     "watch": "npm-watch",
     "lint": "eslint .",
     "test": "env TZ='UTC' NODE_ENV=test mocha test --compilers js:babel-core/register --require babel-polyfill --recursive"
