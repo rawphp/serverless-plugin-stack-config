@@ -24,7 +24,7 @@ describe('download', () => {
 
     await context.download();
 
-    const file = `${context.options.path}/${request.Key}`;
+    const file = `${context.options.path}/stack-config.json`;
 
     expect(fsp.existsSync(file)).to.equal(true);
 
@@ -48,7 +48,7 @@ describe('download', () => {
 
     await context.download();
 
-    const file = `${context.options.path}/${request.Key}`;
+    const file = `${context.options.path}/stack-config.json`;
 
     expect(fsp.existsSync(file)).to.equal(true);
 

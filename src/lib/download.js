@@ -57,7 +57,7 @@ export default async function download() {
       dir = path.resolve(`${this.serverless.config.servicePath}/.serverless`);
     }
 
-    await fsp.writeJson(`${dir}/${config.key}`, object);
+    await fsp.writeJson(`${dir}/stack-config.json`, object);
 
     this.logger.log(chalk.green('Stack Config Downloaded Successfully'));
   } catch (error) {
