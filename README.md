@@ -1,14 +1,12 @@
-# Stack Config Pluign for Serverless
+# Stack Config Plugin for Serverless
 
 A serverless plugin to manage configurations for a micro-service stack.
 
-### NOTE: Plugin Under Heavy Development
+## Features
 
-## Functions
+* `outputs` - This downloads this service's outputs to a file in */PROJECT_ROOT/.serverless/stack-outputs.json* and updates the config file in S3.
 
-* `outputs` - This downloads this services outputs to a file in */PROJECT_ROOT/.serverless/stack-outputs.json* and updates the config file in S3.
-
-* `outputs download` - This downloads the existing **combined** stack config file from S3.
+* `outputs download` - This downloads the existing, **combined**, stack config file from S3.
 
 ## Usage
 
@@ -41,7 +39,6 @@ resources:
 serverless outputs --stage dev --region eu-west-1
 
 serverless outputs download --stage dev --region eu-west-1
-
 # with save directory location
 serverless outputs download --stage dev --region eu-west-1 --path .
 ```
