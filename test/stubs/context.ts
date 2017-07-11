@@ -1,4 +1,4 @@
-import sinon from 'sinon';
+import * as sinon from 'sinon';
 
 /**
  * Returns a new context.
@@ -13,7 +13,6 @@ function getContext() {
   context.serverless = {
     cli: {},
     service: { service: 'test-service' },
-    provider: {},
     variables: {},
   };
   context.service = { service: 'test-service' };
@@ -26,13 +25,13 @@ function getContext() {
   };
   context.options = { stage: 'dev', path: '/tmp' };
   context.logger = {
-    log: args => context.logSpy(args),
-    error: args => context.errorSpy(args),
+    error: (args) => context.errorSpy(args),
+    log: (args) => context.logSpy(args),
   };
   context.backup = {
     s3: {
-      key: 'serverless-config.json',
       bucket: 'my-test-bucket',
+      key: 'serverless-config.json',
       shallow: true,
     },
   };

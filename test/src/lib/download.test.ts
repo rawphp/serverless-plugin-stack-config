@@ -1,12 +1,7 @@
-import chai, { expect } from 'chai';
-import fsp from 'fs-promise';
-import dirtyChai from 'dirty-chai';
-import sinonChai from 'sinon-chai';
-import getContext from './../../stubs/context';
+import { expect } from 'chai';
+import * as fsp from 'fs-promise';
 import download from './../../../src/lib/download';
-
-chai.use(dirtyChai);
-chai.use(sinonChai);
+import getContext from './../../stubs/context';
 
 describe('download', () => {
   let context;

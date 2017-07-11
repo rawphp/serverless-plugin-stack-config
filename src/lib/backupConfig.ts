@@ -1,11 +1,11 @@
-import Promise from 'bluebird';
+import * as BPromise from 'bluebird';
 
 /**
  * Backs up config to S3 bucket.
  *
  * @returns {undefined}
  */
-export default async function backupConfig() {
+export default async function backupConfig(): Promise<void> {
   try {
     if (!this.backup) {
       return;
@@ -26,9 +26,7 @@ export default async function backupConfig() {
       }
 
       if (!this.S3) {
-        this.S3 = Promise.promisifyAll(
-          new this.provider.sdk.S3({ region: this.options.region }),
-        );
+        this.S3 = this.getS3Instance(this.serverless, this.options.region);
       }
 
       let object;
@@ -59,10 +57,10 @@ export default async function backupConfig() {
         outputs = Object.assign({}, object, obj);
       }
 
-      await this.S3.putObjectAsync({
+      await this.S3.uploadAsync({
+        Body: JSON.stringify(outputs),
         Bucket: config.bucket,
         Key: config.key,
-        Body: JSON.stringify(outputs),
       });
     }
   } catch (error) {
