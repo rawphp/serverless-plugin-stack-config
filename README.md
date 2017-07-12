@@ -10,6 +10,12 @@ A serverless plugin to manage configurations for a micro-service stack.
 
 * `outputs download` - This downloads the existing, **combined**, stack config file from S3.
 
+## Install
+
+```shell
+npm install --save serverless-plugin-stack-config
+```
+
 ## Usage
 
 Add the plugin to your `serverless.yml` like the following:
