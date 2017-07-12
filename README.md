@@ -1,5 +1,7 @@
 # Stack Config Plugin for Serverless
 
+[![Build Status](https://travis-ci.org/rawphp/serverless-plugin-stack-config.svg?branch=master)](https://travis-ci.org/rawphp/serverless-plugin-stack-config)
+
 A serverless plugin to manage configurations for a micro-service stack.
 
 ## Features
