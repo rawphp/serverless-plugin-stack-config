@@ -39,6 +39,7 @@ export interface IPluginConfig {
 export interface IStackConfigOptions {
   env: string;
   region: string;
+  path?: string;
 }
 
 export interface IS3 {

@@ -21,7 +21,7 @@ function getContext() {
   };
   context.S3 = {
     getObjectAsync: sandbox.stub(),
-    putObjectAsync: sandbox.stub(),
+    uploadAsync: sandbox.stub(),
   };
   context.options = { stage: 'dev', path: '/tmp' };
   context.logger = {

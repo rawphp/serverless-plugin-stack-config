@@ -35,15 +35,7 @@ describe('backupConfig', () => {
 
     await context.backupConfig();
 
-    // expect(context.S3.putObjectAsync).to.have.been.calledWithExactly({
-    //   Body: JSON.stringify(
-    //     Object.assign({},
-    //       existingConfig,
-    //       context.serverless.variables.stack.outputs,
-    //       { ServerlessDeploymentBucketName: undefined })),
-    //   Bucket: request.Bucket,
-    //   Key: request.Key,
-    // });
+    expect(context.S3.uploadAsync.calledOnce).to.equal(true);
   });
 
   it('backs up service config with stack config in S3 service namespaced', async () => {
@@ -73,15 +65,7 @@ describe('backupConfig', () => {
 
     await context.backupConfig();
 
-    // expect(context.S3.putObjectAsync).to.have.been.calledWithExactly({
-    //   Body: JSON.stringify(
-    //     Object.assign({},
-    //       existingConfig,
-    //       { 'test-service': context.serverless.variables.stack.outputs },
-    //     )),
-    //   Bucket: request.Bucket,
-    //   Key: request.Key,
-    // });
+    expect(context.S3.uploadAsync.calledOnce).to.equal(true);
   });
 
   it('logs an error if bucket is not defined', async () => {

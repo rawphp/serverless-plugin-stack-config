@@ -38,11 +38,10 @@ describe('getValues', () => {
     await context.getValues();
 
     expect(context.logSpy.calledOnce).to.equal(true);
-    // expect(context.CF.describeStacksAsync).to.have.been.calledWith(request);
-    // expect(context.serverless.variables.stack).to.exist();
-    // expect(context.serverless.variables.stack.outputs.PublicSubnet).to.exist();
-    // expect(context.serverless.variables.stack.outputs.RedisEndpoint).to.exist();
-    // expect(context.serverless.variables.stack.outputs.ServiceEndpoint).to.exist();
+    expect(typeof context.serverless.variables.stack).to.equal('object');
+    expect(typeof context.serverless.variables.stack.outputs.PublicSubnet).to.equal('string');
+    expect(typeof context.serverless.variables.stack.outputs.RedisEndpoint).to.equal('string');
+    expect(typeof context.serverless.variables.stack.outputs.ServiceEndpoint).to.equal('string');
   });
 
   it('logs an error if stack does not exist', async () => {
@@ -55,6 +54,6 @@ describe('getValues', () => {
     await context.getValues();
 
     expect(context.logSpy.calledTwice).to.equal(true);
-    // expect(context.serverless.variables.stack).to.not.exist();
+    expect(typeof context.serverless.variables.stack).to.equal('undefined');
   });
 });

@@ -14,7 +14,7 @@ export default async function getValues(): Promise<void> {
     const outputs = {};
 
     if (!this.CF) {
-      this.CF = this.serverless.getCloudFormationInstance(this.serverless, this.options.region);
+      this.CF = this.getCloudFormationInstance(this.serverless, this.options.region);
     }
 
     if (this.options.verbose) {
