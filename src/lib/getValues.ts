@@ -1,11 +1,11 @@
-import Promise from 'bluebird';
+import * as BPromise from 'bluebird';
 
 /**
  * Retrieves stack Ouputs from AWS.
  *
  * @returns {undefined}
  */
-export default async function getValues() {
+export default async function getValues(): Promise<void> {
   try {
     this.logger.log('Retrieving Outputs...');
 
@@ -14,18 +14,20 @@ export default async function getValues() {
     const outputs = {};
 
     if (!this.CF) {
-      this.CF = Promise.promisifyAll(
-        new this.provider.sdk.CloudFormation({ region: this.options.region }),
-      );
+      this.CF = this.getCloudFormationInstance(this.serverless, this.options.region);
     }
 
-    if (this.options.verbose) this.logger.log('Calling CloudFormation...');
+    if (this.options.verbose) {
+      this.logger.log('Calling CloudFormation...');
+    }
 
     const response = await this.CF.describeStacksAsync({ StackName: stackName });
 
     let stack;
 
-    if (this.options.verbose) this.logger.log('Parsing CloudFormation Response...');
+    if (this.options.verbose) {
+      this.logger.log('Parsing CloudFormation Response...');
+    }
 
     response.Stacks.some((sk) => {
       if (sk.StackName === stackName) {
