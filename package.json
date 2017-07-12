@@ -7,9 +7,7 @@
   "scripts": {
     "prebuild": "yarn run clear",
     "build": "tsc",
-    "prerelease": "yarn build && yarn version",
     "clear": "rm -rf dist",
-    "watch": "npm-watch",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "env TZ='UTC' NODE_ENV=test mocha --require ts-node/register test/src/*.test.ts test/src/**/*.test.ts"
   },
