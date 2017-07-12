@@ -3,7 +3,7 @@
  *
  * @returns {undefined}
  */
-export default async function validate() {
+export default async function validate(): Promise<void> {
   if (!this.serverless.config.servicePath) {
     throw new this.serverless.classes
       .Error('This command can only be run inside a service directory');

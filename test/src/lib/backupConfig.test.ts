@@ -1,13 +1,6 @@
-import chai, { expect } from 'chai';
-import dirtyChai from 'dirty-chai';
-import sinonChai from 'sinon-chai';
-import getContext from './../../stubs/context';
+import { expect } from 'chai';
 import backupConfig from './../../../src/lib/backupConfig';
-
-/* eslint id-length:0 */
-
-chai.use(dirtyChai);
-chai.use(sinonChai);
+import getContext from './../../stubs/context';
 
 describe('backupConfig', () => {
   let context;
@@ -29,8 +22,8 @@ describe('backupConfig', () => {
       outputs: {
         PublicSubnet: 'subnet-5c2ed23b',
         RedisEndpoint: 'red-ra-1jr1f3aoud9bh.fi2upk.0001.euw1.cache.amazonaws.com',
-        ServiceEndpoint: 'ec2-54-154-172-118.eu-west-1.compute.amazonaws.com',
         ServerlessDeploymentBucketName: 'store-dev-serverlessdeploymentbucket-4gioqmkmo42z',
+        ServiceEndpoint: 'ec2-54-154-172-118.eu-west-1.compute.amazonaws.com',
       },
     };
 
@@ -42,15 +35,7 @@ describe('backupConfig', () => {
 
     await context.backupConfig();
 
-    expect(context.S3.putObjectAsync).to.have.been.calledWithExactly({
-      Bucket: request.Bucket,
-      Key: request.Key,
-      Body: JSON.stringify(
-        Object.assign({},
-          existingConfig,
-          context.serverless.variables.stack.outputs,
-          { ServerlessDeploymentBucketName: undefined })),
-    });
+    expect(context.S3.uploadAsync.calledOnce).to.equal(true);
   });
 
   it('backs up service config with stack config in S3 service namespaced', async () => {
@@ -65,8 +50,8 @@ describe('backupConfig', () => {
       outputs: {
         PublicSubnet: 'subnet-5c2ed23b',
         RedisEndpoint: 'red-ra-1jr1f3aoud9bh.fi2upk.0001.euw1.cache.amazonaws.com',
-        ServiceEndpoint: 'ec2-54-154-172-118.eu-west-1.compute.amazonaws.com',
         ServerlessDeploymentBucketName: 'store-dev-serverlessdeploymentbucket-4gioqmkmo42z',
+        ServiceEndpoint: 'ec2-54-154-172-118.eu-west-1.compute.amazonaws.com',
       },
     };
 
@@ -80,17 +65,8 @@ describe('backupConfig', () => {
 
     await context.backupConfig();
 
-    expect(context.S3.putObjectAsync).to.have.been.calledWithExactly({
-      Bucket: request.Bucket,
-      Key: request.Key,
-      Body: JSON.stringify(
-        Object.assign({},
-          existingConfig,
-          { 'test-service': context.serverless.variables.stack.outputs },
-        )),
-    });
+    expect(context.S3.uploadAsync.calledOnce).to.equal(true);
   });
-
 
   it('logs an error if bucket is not defined', async () => {
     context.backup.s3.bucket = undefined;

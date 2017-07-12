@@ -1,0 +1,27 @@
+service: test-app
+description: The AWS CloudFormation template for Phoenix Mock Server
+
+frameworkVersion: ">= 1.0.0"
+
+plugins:
+  # - serverless-plugin-stack-config
+
+custom:
+  stack-config:
+    backup:
+      s3:
+        key: config/stack-config.json
+        bucket: ${self:service}-${opt:env}
+        shallow: true
+
+provider:
+  name: aws
+  stage: ${opt:env}
+  region: ${opt:region}
+
+resources:
+  Resources:
+    Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:service}-${opt:env}

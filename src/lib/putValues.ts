@@ -1,15 +1,16 @@
-import fsp from 'fs-promise';
-import path from 'path';
-import chalk from 'chalk';
+import * as fsp from 'fs-promise';
+import * as path from 'path';
 
 /**
  * Write values to file.
  *
  * @returns {undefined}
  */
-export default async function putValues() {
+export default async function putValues(): Promise<void> {
   try {
-    if (this.options.verbose) this.logger.log('Writing Outputs...');
+    if (this.options.verbose) {
+      this.logger.log('Writing Outputs...');
+    }
 
     let dir;
 
@@ -21,7 +22,7 @@ export default async function putValues() {
 
     await fsp.writeJson(`${dir}/stack-outputs.json`, this.serverless.variables.stack.outputs);
 
-    this.logger.log(chalk.green('Outputs Retrieved Successfully'));
+    this.logger.log('Outputs Retrieved Successfully');
   } catch (error) {
     this.logger.log(error);
   }

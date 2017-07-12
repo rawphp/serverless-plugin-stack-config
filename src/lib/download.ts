@@ -1,19 +1,16 @@
-import Promise from 'bluebird';
-import fsp from 'fs-promise';
-import path from 'path';
-import chalk from 'chalk';
+import * as BPromise from 'bluebird';
+import * as fsp from 'fs-promise';
+import * as path from 'path';
 
 /**
  * Downloads configuration.
  *
  * @returns {undefined}
  */
-export default async function download() {
+export default async function download(): Promise<void> {
   try {
     if (!this.S3) {
-      this.S3 = Promise.promisifyAll(
-        new this.provider.sdk.S3({ region: this.options.region }),
-      );
+      this.S3 = this.getS3Instance(this.serverless, this.options.region);
     }
 
     if (!this.backup) {
@@ -64,7 +61,7 @@ export default async function download() {
 
     await fsp.writeJson(`${dir}/stack-config.json`, object);
 
-    this.logger.log(chalk.green('Stack Config Downloaded Successfully'));
+    this.logger.log('Stack Config Downloaded Successfully');
   } catch (error) {
     this.logger.log(error);
   }
