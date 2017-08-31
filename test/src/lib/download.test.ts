@@ -53,7 +53,7 @@ describe('download', () => {
   });
 
   it('logs an error if backup is not defined', async () => {
-    context.backup = undefined;
+    context.config.backup = undefined;
 
     await context.download();
 
@@ -64,7 +64,7 @@ describe('download', () => {
   });
 
   it('logs an error if backup S3 is not defined', async () => {
-    context.backup.s3 = undefined;
+    context.config.backup.s3 = undefined;
 
     await context.download();
 
@@ -75,7 +75,7 @@ describe('download', () => {
   });
 
   it('logs an error if bucket is not defined', async () => {
-    context.backup.s3.bucket = undefined;
+    context.config.backup.s3.bucket = undefined;
 
     await context.download();
 
@@ -86,7 +86,7 @@ describe('download', () => {
   });
 
   it('logs an error if file key is not defined', async () => {
-    context.backup.s3.key = undefined;
+    context.config.backup.s3.key = undefined;
 
     await context.download();
 

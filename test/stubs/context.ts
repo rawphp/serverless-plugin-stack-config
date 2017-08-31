@@ -28,11 +28,13 @@ function getContext() {
     error: (args) => context.errorSpy(args),
     log: (args) => context.logSpy(args),
   };
-  context.backup = {
-    s3: {
-      bucket: 'my-test-bucket',
-      key: 'serverless-config.json',
-      shallow: true,
+  context.config = {
+    backup: {
+      s3: {
+        bucket: 'my-test-bucket',
+        key: 'serverless-config.json',
+        shallow: true,
+      },
     },
   };
 

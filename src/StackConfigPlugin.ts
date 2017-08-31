@@ -43,10 +43,6 @@ export default class StackConfigPlugin implements IStackConfig {
 
     if (this.service.custom) {
       this.config = this.service.custom['stack-config'];
-
-      if (this.config.backup) {
-        this.backup = this.config.backup;
-      }
     }
 
     this.commands = this.defineCommands();

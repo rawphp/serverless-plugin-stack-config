@@ -13,14 +13,14 @@ export default async function download(): Promise<void> {
       this.S3 = this.getS3Instance(this.serverless, this.options.region);
     }
 
-    if (!this.backup) {
+    if (!this.config || !this.config.backup) {
       throw new Error('StackConfig plugin has not defined a backup configuration');
     }
-    if (!this.backup.s3) {
+    if (!this.config.backup.s3) {
       throw new Error('StackConfig plugin has not defined an S3 backup configuration');
     }
 
-    const config = this.backup.s3;
+    const config = this.config.backup.s3;
 
     if (!config.bucket) {
       throw new Error('StackConfig plugin has not defined a `bucket` name');

@@ -7,12 +7,12 @@ import * as BPromise from 'bluebird';
  */
 export default async function backupConfig(): Promise<void> {
   try {
-    if (!this.backup) {
+    if (!this.config || !this.config.backup) {
       return;
     }
 
-    if (this.backup.s3) {
-      const config = this.backup.s3;
+    if (this.config.backup.s3) {
+      const config = this.config.backup.s3;
 
       if (!config.bucket) {
         throw new Error('StackConfig plugin has not defined a `bucket` name');

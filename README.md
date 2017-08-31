@@ -20,6 +20,8 @@ npm install --save serverless-plugin-stack-config
 
 Add the plugin to your `serverless.yml` like the following:
 
+NOTE: The `script` and `backup` properties are optional.
+
 ### serverless.yml:
 ```yaml
 provider:
@@ -30,6 +32,7 @@ plugins:
 
 custom:
   stack-config:
+    script: scripts/transform.js
     backup:
       s3:
         key: config/stack-config.json
@@ -42,7 +45,29 @@ resources:
 ...
 ```
 
-### shell commands:
+### Configure the Stack Output
+
+You can now supply a script that you can use to transform the stack outputs before they are saved to file.
+
+For example you could rename outputs or create new ones from the values received.
+
+```js
+// scripts/transform.js
+
+module.exports = async function transform(serverless, stackOutputs) {
+  // rename
+  stackOutputs.TrackingServiceEndpoint = stackOutputs.ServiceEndpoint;
+
+  // delete
+  delete stackOutputs.ServerlessDeploymentBucketName;
+  delete stackOutputs.ServiceEndpoint;
+
+  // return updated stack
+  return stackOutputs;
+}
+```
+
+### Example shell commands:
 ```shell
 serverless outputs --stage dev --region eu-west-1
 

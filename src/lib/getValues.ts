@@ -11,7 +11,7 @@ export default async function getValues(): Promise<void> {
 
     const stackName = `${this.service.service}-${this.options.stage}`;
 
-    const outputs = {};
+    let outputs = {};
 
     if (!this.CF) {
       this.CF = this.getCloudFormationInstance(this.serverless, this.options.region);
@@ -43,6 +43,15 @@ export default async function getValues(): Promise<void> {
       stack.Outputs.forEach((element) => {
         outputs[element.OutputKey] = element.OutputValue;
       });
+
+      // execute custom script if provided
+      if (this.config.script) {
+        this.logger.log(`Executing custom script command: ${this.config.script}`);
+
+        const transform = require(`${process.cwd()}/${this.config.script}`);
+
+        outputs = await transform(this.serverless, outputs);
+      }
 
       this.serverless.variables.stack = { outputs };
     } else {

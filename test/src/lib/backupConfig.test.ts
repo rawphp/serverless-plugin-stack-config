@@ -61,7 +61,7 @@ describe('backupConfig', () => {
       Body: JSON.stringify(existingConfig),
     });
 
-    context.backup.s3.shallow = false;
+    context.config.backup.s3.shallow = false;
 
     await context.backupConfig();
 
@@ -69,7 +69,7 @@ describe('backupConfig', () => {
   });
 
   it('logs an error if bucket is not defined', async () => {
-    context.backup.s3.bucket = undefined;
+    context.config.backup.s3.bucket = undefined;
 
     await context.backupConfig();
 
@@ -80,7 +80,7 @@ describe('backupConfig', () => {
   });
 
   it('logs an error if file key is not defined', async () => {
-    context.backup.s3.key = undefined;
+    context.config.backup.s3.key = undefined;
 
     await context.backupConfig();
 
