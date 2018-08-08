@@ -31,27 +31,26 @@
   "dependencies": {
     "aws-sdk": "2.x.x",
     "bluebird": "3.x.x",
-    "fs-promise": "2.x.x"
+    "fs-extra": "5.x.x"
   },
   "devDependencies": {
     "@types/bluebird": "3.x.x",
     "@types/chai": "4.x.x",
-    "@types/fs-promise": "1.x.x",
-    "@types/mocha": "2.x.x",
-    "@types/node": "7.x.x",
-    "awesome-typescript-loader": "3.x.x",
-    "chai": "3.x.x",
-    "changelog-verify": "1.x.x",
-    "esdoc": "0.x.x",
-    "esdoc-es7-plugin": "0.x.x",
-    "mocha": "3.x.x",
-    "serverless": "1.13.0",
-    "sinon": "1.x.x",
-    "ts-node": "3.x.x",
+    "@types/fs-extra": "5.x.x",
+    "@types/mocha": "5.x.x",
+    "@types/node": "8.x.x",
+    "awesome-typescript-loader": "5.x.x",
+    "chai": "4.x.x",
+    "changelog-verify": "1.0.4",
+    "esdoc-es7-plugin": "0.0.x",
+    "mocha": "5.x.x",
+    "serverless": "1.x.x",
+    "sinon": "6.x.x",
+    "ts-node": "7.x.x",
     "tslint": "5.x.x",
     "typescript": "2.x.x",
-    "version-changelog": "2.x.x",
-    "webpack": "2.x.x",
-    "yamljs": "0.x.x"
+    "version-changelog": "2.1.0",
+    "webpack": "4.x.x",
+    "yamljs": "0.3.x"
   }
 }

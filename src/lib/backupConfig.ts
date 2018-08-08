@@ -1,9 +1,7 @@
-import * as BPromise from 'bluebird';
-
 /**
  * Backs up config to S3 bucket.
  *
- * @returns {undefined}
+ * @returns void
  */
 export default async function backupConfig(): Promise<void> {
   try {
@@ -32,10 +30,9 @@ export default async function backupConfig(): Promise<void> {
       let object;
 
       try {
-        const data = (await this.S3.getObjectAsync({ Bucket: config.bucket, Key: config.key }))
-          .Body.toString();
+        const data = await this.S3.getObject({ Bucket: config.bucket, Key: config.key }).promise();
 
-        object = JSON.parse(data);
+        object = JSON.parse(data.Body.toString());
       } catch (error) {
         this.logger.log('Config file does not exist. Creating...');
 
@@ -43,9 +40,6 @@ export default async function backupConfig(): Promise<void> {
       }
 
       let outputs;
-
-      /* eslint id-length:0 */
-      this.serverless.variables.stack.outputs.ServerlessDeploymentBucketName = undefined;
 
       if (config.shallow) {
         outputs = Object.assign({}, object, this.serverless.variables.stack.outputs);
@@ -57,11 +51,13 @@ export default async function backupConfig(): Promise<void> {
         outputs = Object.assign({}, object, obj);
       }
 
-      await this.S3.uploadAsync({
-        Body: JSON.stringify(outputs),
+      this.logger.log('Uploading config to ' + config.bucket);
+
+      await this.S3.upload({
+        Body: JSON.stringify(outputs, null, 2),
         Bucket: config.bucket,
         Key: config.key,
-      });
+      }).promise();
     }
   } catch (error) {
     this.logger.log(error);

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as fsp from 'fs-promise';
+import * as fs from 'fs-extra';
 import putValues from './../../../src/lib/putValues';
 import getContext from './../../stubs/context';
 
@@ -24,9 +24,9 @@ describe('putValues', () => {
 
     const configFile = `${context.options.path}/stack-outputs.json`;
 
-    expect(fsp.existsSync(configFile)).to.equal(true);
+    expect(fs.existsSync(configFile)).to.equal(true);
 
-    const content = await fsp.readJson(configFile);
+    const content = await fs.readJson(configFile);
 
     expect(content.PublicSubnet).to.equal('subnet-5c2ed23b');
     expect(content.RedisEndpoint).to.equal('red-ra-1jr1f3aoud9bh.fi2upk.0001.euw1.cache.amazonaws.com');

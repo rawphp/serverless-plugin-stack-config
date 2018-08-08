@@ -1,7 +1,5 @@
 import * as AWS from 'aws-sdk';
-import * as BPromise from 'bluebird';
 import { expect } from 'chai';
-import * as fsp from 'fs-promise';
 import * as path from 'path';
 import * as Serverless from 'serverless';
 import getContext from '../../stubs/context';

@@ -1,3 +1,4 @@
+import * as AWS from 'aws-sdk';
 import * as BPromise from 'bluebird';
 import CLI from 'serverless/lib/classes/CLI';
 import { getCloudFormationInstance, getS3Instance } from './lib/AWS';
@@ -14,7 +15,7 @@ import {
   IStackConfigCommands,
   IStackConfigHooks,
   IStackConfigOptions,
-} from "./types";
+} from './types';
 
 export default class StackConfigPlugin implements IStackConfig {
   private serverless: IServerless;
@@ -42,8 +43,11 @@ export default class StackConfigPlugin implements IStackConfig {
     this.backup = false;
 
     if (this.service.custom) {
-      this.config = this.service.custom['stack-config'];
+      this.config = this.service.custom['stack-config'] || {};
     }
+
+    const credentials = new AWS.SharedIniFileCredentials({ profile: this.serverless.processedInput.options.profile });
+    AWS.config.credentials = credentials;
 
     this.commands = this.defineCommands();
     this.hooks = this.defineHooks();
@@ -62,8 +66,12 @@ export default class StackConfigPlugin implements IStackConfig {
       path: {
         required: false,
         shortcut: 'p',
-        usage: 'Specify the location of the `stack-outputs.json` file '
-        + '(e.g. "--path .serverless or -p .serverless)',
+        usage:
+          'Specify the location of the `stack-outputs.json` file ' + '(e.g. "--path .serverless or -p .serverless)',
+      },
+      profile: {
+        shortcut: 'p',
+        usage: 'AWS profile name',
       },
       region: {
         shortcut: 'r',
@@ -83,20 +91,12 @@ export default class StackConfigPlugin implements IStackConfig {
       outputs: {
         commands: {
           download: {
-            lifecycleEvents: [
-              'validate',
-              'download',
-            ],
+            lifecycleEvents: ['validate', 'download'],
             options: commonOptions,
             usage: 'Download combined config file',
           },
         },
-        lifecycleEvents: [
-          'validate',
-          'getValues',
-          'putValues',
-          'backup',
-        ],
+        lifecycleEvents: ['validate', 'getValues', 'putValues', 'backup'],
         options: commonOptions,
         usage: 'Save stack Outputs to file',
       },
@@ -110,22 +110,25 @@ export default class StackConfigPlugin implements IStackConfig {
    */
   public defineHooks(): IStackConfigHooks {
     return {
-      'after:deploy:deploy': () => BPromise.bind(this)
-        .then(validate)
-        .then(getValues)
-        .then(putValues)
-        .then(backupConfig),
+      'after:deploy:deploy': () =>
+        BPromise.bind(this)
+          .then(validate)
+          .then(getValues)
+          .then(putValues)
+          .then(backupConfig),
 
-      'outputs:getValues': () => BPromise.bind(this)
-        .then(validate)
-        .then(getValues)
-        .then(putValues)
-        .then(backupConfig),
+      'outputs:getValues': () =>
+        BPromise.bind(this)
+          .then(validate)
+          .then(getValues)
+          .then(putValues)
+          .then(backupConfig),
 
       // tslint:disable-next-line:object-literal-sort-keys
-      'outputs:download:download': () => BPromise.bind(this)
-        .then(validate)
-        .then(download),
+      'outputs:download:download': () =>
+        BPromise.bind(this)
+          .then(validate)
+          .then(download),
     };
   }
 }

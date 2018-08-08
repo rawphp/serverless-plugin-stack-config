@@ -1,4 +1,4 @@
-import * as fsp from 'fs-promise';
+import * as fs from 'fs-extra';
 import * as path from 'path';
 
 /**
@@ -20,7 +20,9 @@ export default async function putValues(): Promise<void> {
       dir = path.resolve(`${this.serverless.config.servicePath}/.serverless`);
     }
 
-    await fsp.writeJson(`${dir}/stack-outputs.json`, this.serverless.variables.stack.outputs);
+    await fs.ensureDir(dir);
+
+    await fs.writeJson(`${dir}/stack-outputs.json`, this.serverless.variables.stack.outputs, { spaces: 2 });
 
     this.logger.log('Outputs Retrieved Successfully');
   } catch (error) {

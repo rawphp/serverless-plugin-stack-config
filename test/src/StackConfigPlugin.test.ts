@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as path from 'path';
 import * as Serverless from 'serverless';
-import { IStackConfig } from "../../src/types";
+import { IStackConfig } from '../../src/types';
 import StackConfigPlugin from './../../src/StackConfigPlugin';
 
 const fixturePath = path.resolve(`${process.cwd()}/test/fixture`);

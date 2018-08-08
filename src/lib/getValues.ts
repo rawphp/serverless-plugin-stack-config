@@ -1,3 +1,4 @@
+import * as AWS from 'aws-sdk';
 import * as BPromise from 'bluebird';
 
 /**
@@ -21,7 +22,7 @@ export default async function getValues(): Promise<void> {
       this.logger.log('Calling CloudFormation...');
     }
 
-    const response = await this.CF.describeStacksAsync({ StackName: stackName });
+    const response = await this.CF.describeStacks({ StackName: stackName }).promise();
 
     let stack;
 
@@ -58,6 +59,6 @@ export default async function getValues(): Promise<void> {
       throw new Error(`Stack: '${stackName}' not found`);
     }
   } catch (error) {
-    this.logger.log(error);
+    this.logger.log('getValues.error: ' + error.message);
   }
 }

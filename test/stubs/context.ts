@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
  * @returns {Object} new test context
  */
 function getContext() {
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon;
   const context = sandbox.mock();
 
   context.logSpy = sandbox.spy();
@@ -17,11 +17,11 @@ function getContext() {
   };
   context.service = { service: 'test-service' };
   context.CF = {
-    describeStacksAsync: sandbox.stub(),
+    describeStacks: sandbox.stub(),
   };
   context.S3 = {
-    getObjectAsync: sandbox.stub(),
-    uploadAsync: sandbox.stub(),
+    getObject: sandbox.stub(),
+    upload: sandbox.stub(),
   };
   context.options = { stage: 'dev', path: '/tmp' };
   context.logger = {

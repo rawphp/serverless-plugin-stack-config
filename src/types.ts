@@ -9,6 +9,7 @@ export interface IServerless {
   config: any;
   cli: CLI;
   service: any;
+  processedInput: any;
   getProvider(type: string): any;
 }
 

@@ -29,13 +29,13 @@ describe('backupConfig', () => {
 
     const request = { Bucket: 'my-test-bucket', Key: 'serverless-config.json' };
 
-    context.S3.getObjectAsync.withArgs(request).returns({
+    context.S3.getObject.withArgs(request).returns({
       Body: JSON.stringify(existingConfig),
     });
 
     await context.backupConfig();
 
-    expect(context.S3.uploadAsync.calledOnce).to.equal(true);
+    expect(context.S3.upload.calledOnce).to.equal(true);
   });
 
   it('backs up service config with stack config in S3 service namespaced', async () => {
@@ -57,7 +57,7 @@ describe('backupConfig', () => {
 
     const request = { Bucket: 'my-test-bucket', Key: 'serverless-config.json' };
 
-    context.S3.getObjectAsync.withArgs(request).returns({
+    context.S3.getObject.withArgs(request).returns({
       Body: JSON.stringify(existingConfig),
     });
 
@@ -65,7 +65,7 @@ describe('backupConfig', () => {
 
     await context.backupConfig();
 
-    expect(context.S3.uploadAsync.calledOnce).to.equal(true);
+    expect(context.S3.upload.calledOnce).to.equal(true);
   });
 
   it('logs an error if bucket is not defined', async () => {

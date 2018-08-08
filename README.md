@@ -23,6 +23,7 @@ Add the plugin to your `serverless.yml` like the following:
 NOTE: The `script` and `backup` properties are optional.
 
 ### serverless.yml:
+
 ```yaml
 provider:
 ...

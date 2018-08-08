@@ -1,5 +1,5 @@
 import * as BPromise from 'bluebird';
-import * as fsp from 'fs-promise';
+import * as fs from 'fs-extra';
 import * as path from 'path';
 
 /**
@@ -36,10 +36,9 @@ export default async function download(): Promise<void> {
     let object;
 
     try {
-      const data = (await this.S3.getObjectAsync({ Bucket: config.bucket, Key: config.key }))
-        .Body.toString();
+      const data = await this.S3.getObject({ Bucket: config.bucket, Key: config.key }).promise();
 
-      object = JSON.parse(data);
+      object = JSON.parse(data.Body.toString());
     } catch (error) {
       this.logger.log('Config file not found');
 
@@ -55,11 +54,11 @@ export default async function download(): Promise<void> {
     }
 
     // ensure directory exists
-    if (!fsp.existsSync(dir)) {
-      await fsp.mkdirs(dir);
+    if (!fs.existsSync(dir)) {
+      await fs.mkdirs(dir);
     }
 
-    await fsp.writeJson(`${dir}/stack-config.json`, object);
+    await fs.writeJson(`${dir}/stack-config.json`, object, { spaces: 2 });
 
     this.logger.log('Stack Config Downloaded Successfully');
   } catch (error) {
