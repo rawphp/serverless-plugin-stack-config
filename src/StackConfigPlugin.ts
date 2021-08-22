@@ -68,22 +68,27 @@ export default class StackConfigPlugin implements IStackConfig {
         shortcut: 'p',
         usage:
           'Specify the location of the `stack-outputs.json` file ' + '(e.g. "--path .serverless or -p .serverless)',
+        type: 'string',
       },
       profile: {
         shortcut: 'p',
         usage: 'AWS profile name',
+        type: 'string',
       },
       region: {
         shortcut: 'r',
         usage: 'Region of the service',
+        type: 'string',
       },
       stage: {
         shortcut: 's',
         usage: 'Stage of the service',
+        type: 'string',
       },
       verbose: {
         shortcut: 'v',
         usage: 'Show all stack events during deployment',
+        type: 'boolean',
       },
     };
 
